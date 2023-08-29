@@ -5,9 +5,10 @@ import Notification from './components/Notification'
 
 const Footer = () => {
   const footerStyle = {
-    color: 'green',
+    color: 'white',
     fontStyle: 'italic',
-    fontSize: 12
+    fontSize: 12,
+    margin:'10px 10px 10px 20px'
   }
   return (
     <div style={footerStyle}>
@@ -22,13 +23,13 @@ const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(true)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
 
   const hook = () => {
     console.log("effect")
     noteService
-      .getAll('http://localhost:3001/notes')
+      .getAll('http://localhost:3004/notes')
       .then(initialNotes => {
         console.log('promise fulfilled')
         setNotes(initialNotes)
@@ -92,17 +93,24 @@ const App = () => {
       <h1>Notes</h1>
       <Notification message={errorMessage} />
       <div>
-        <button onClick={() => setShowAll(!showAll)} >
+        <button onClick={() => setShowAll(!showAll)} className='button'>
         show {showAll ? "important" : 'all'}
         </button>
       </div>
       <ul>
         {notesToShow.map(note => <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)}/>)}
       </ul>
+      <div className='save'>
       <form onSubmit={addNote}>
         <input value={newNote} onChange={handleNoteChange} />
-        <button type="submit">save</button>
-      </form>
+          <button type="submit" className='button'>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            save</button>
+        </form>
+      </div>
       <Footer/>
     </div>
   )
